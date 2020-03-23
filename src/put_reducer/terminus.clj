@@ -8,14 +8,20 @@
   [k _]
   (log-terminus k))
 
-(let [f (fn terminus-default
-          ([] {})
-          ([result] (doseq [[dest cnt] result]
-                      (log/infof "%d entries reached terminus %s" cnt (name dest))))
-          ([result [dest item]] (update result dest (fnil inc 0))))]
-  (defmethod log-terminus :default
-    [_]
-    f))
+#_(let [f (fn terminus-default
+            ([] {})
+            ([result] (doseq [[dest cnt] result]
+                        (log/infof "%d entries reached terminus %s" cnt (name dest))))
+            ([result [dest item]] (update result dest (fnil inc 0))))]
+    (defmethod log-terminus :default
+      [_]
+      f))
+
+(core/defreducermethod log-terminus :default
+  ([] {})
+  ([result] (doseq [[dest cnt] result]
+              (log/infof "%d entries reached terminus %s" cnt (name dest))))
+  ([result [dest item]] (update result dest (fnil inc 0))))
 
 (comment
   (defn f1 []

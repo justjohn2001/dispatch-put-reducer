@@ -2,12 +2,17 @@
   (:require [put-reducer.core :as core]
             [put-reducer.terminus :as terminus]))
 
-(defmethod terminus/log-terminus "vanish"
-  [_]
-  (fn
-    ([] nil)
-    ([result] nil)
-    ([result [dest item]] nil)))
+#_(defmethod terminus/log-terminus "vanish"
+    [_]
+    (fn
+      ([] nil)
+      ([result] nil)
+      ([result [dest item]] nil)))
+
+(core/defreducermethod terminus/log-terminus "vanish"
+  ([] nil)
+  ([result] nil)
+  ([result item] nil))
 
 (comment
   (transduce (map identity)

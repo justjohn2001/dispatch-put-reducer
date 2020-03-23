@@ -21,3 +21,11 @@
      (let [f (service-put k config)
            previous-result (get result f (f))]
        (assoc result f (f previous-result item))))))
+
+(defmacro defreducermethod
+  [method-name dispatch-val & body]
+  `(let [f# (fn ~(symbol (str (name method-name) "-" (name dispatch-val)))
+              ~@body)]
+     (defmethod ~method-name ~dispatch-val
+       [~'_]
+       f#)))

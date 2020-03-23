@@ -15,32 +15,44 @@
 
 
 
-(let [sql-put-hotel (fn sql-put-hotel
-                      ([] [])
-                      ([result]
-                       (log/infof "running `INSERT INTO hotel VALUES (...)` on %d items - %s"
-                                  (count result) result))
-                      ([result [_ row]] (conj result row)))]
+#_(let [sql-put-hotel (fn sql-put-hotel
+                        ([] [])
+                        ([result]
+                         (log/infof "running `INSERT INTO hotel VALUES (...)` on %d items - %s"
+                                    (count result) result))
+                        ([result [_ row]] (conj result row)))]
 
-  (defmethod sql-put "hotel"
-    [_ config]
-    sql-put-hotel))
+    (defmethod sql-put "hotel"
+      [_ config]
+      sql-put-hotel))
+
+(core/defreducermethod sql-put "hotel"
+  ([] [])
+  ([result]
+   (log/infof "running `INSERT INTO hotel VALUES (...)` on %d items - %s"
+              (count result) result))
+  ([result [_ row]] (conj result row)))
 
 
 
+(core/defreducermethod sql-put "photo"
+  ([] [])
+  ([result]
+   (log/infof "running `INSERT INTO photos VALUES (...)` on %d items - %s"
+              (count result) result))
+  ([result [_ row]]
+   (conj result row)))
 
-
-
-(let [sql-put-photo (fn sql-put-photo
-                      ([] [])
-                      ([result]
-                       (log/infof "running `INSERT INTO photos VALUES (...)` on %d items - %s"
-                                  (count result) result))
-                      ([result [_ row]]
-                       (conj result row)))]
-  (defmethod sql-put "photo"
-    [_ config]
-    sql-put-photo))
+#_(let [sql-put-photo (fn sql-put-photo
+                        ([] [])
+                        ([result]
+                         (log/infof "running `INSERT INTO photos VALUES (...)` on %d items - %s"
+                                    (count result) result))
+                        ([result [_ row]]
+                         (conj result row)))]
+    (defmethod sql-put "photo"
+      [_ config]
+      sql-put-photo))
 
 (comment
   (def hotel-data [{:id 1234

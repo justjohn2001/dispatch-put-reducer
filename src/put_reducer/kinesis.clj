@@ -30,6 +30,7 @@
     ([result [dest record]]
      (update result dest conj record))))
 
+;;; Want to return the same fn for a given config value.
 (def kinesis-put-reducer-memoized (memoize kinesis-put-reducer))
 
 (defmethod kinesis-put :default
